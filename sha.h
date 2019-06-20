@@ -45,7 +45,8 @@ namespace sha1{
                 chunks[80*i + j]  = (uint8_t)tmp[4*j] << 24 | (uint8_t)tmp[4*j+1] << 16 | (uint8_t)tmp[4*j+2] << 8 | (uint8_t)tmp[4*j+3];
             }
             for (int j = 16; j < 80; ++j){
-                chunks[80*i + j]  = 0;
+                chunks[80*i + j]  = rotate_left(chunks[80*i+ j -3] ^ chunks[80*i+ j -8] ^ chunks[80*i+ j -14] ^ chunks[80*i+ j -16],1);
+
             }
         }
         /*

@@ -4,6 +4,21 @@
 #include <bitset>
 #include <vector>
 
+/* Compile time utility functions
+ * See https://tools.ietf.org/html/rfc3174#section-7
+ */
+constexpr uint32_t rotate_left(uint32_t word,uint32_t shift){
+    return (word << shift) | (word >> (32-shift));
+}
+constexpr uint32_t f_1(uint32_t B,uint32_t C,uint32_t D){
+    return (B & C) | ((!B) & D);
+}
+constexpr uint32_t f_2(uint32_t B,uint32_t C,uint32_t D){
+    return B ^ C ^ D;
+}
+constexpr uint32_t f_3(uint32_t B,uint32_t C,uint32_t D){
+    return (B & C) | (B & D) | (C & D);
+}
 namespace sha1{
     std::vector<uint32_t > divide_chunks(const std::string_view& input){
         auto tmp = std::string(input);
@@ -20,12 +35,24 @@ namespace sha1{
         tmp.append(zeros,num_bytes).append(length,8);
         int num_blocks = tmp.length() / 64;
         std::vector<uint32_t > chunks(80*num_blocks,0);
+        /*
+        for (std::size_t i = 0; i < tmp.size(); ++i){
+            std::cout << std::bitset<8>(tmp.c_str()[i]) << std::endl;
+        }
+        */
         for (std::size_t i = 0; i < num_blocks; ++i){
             for (int j = 0; j < 16; ++j){
                 chunks[80*i + j]  = (uint8_t)tmp[4*j] << 24 | (uint8_t)tmp[4*j+1] << 16 | (uint8_t)tmp[4*j+2] << 8 | (uint8_t)tmp[4*j+3];
             }
+            for (int j = 16; j < 80; ++j){
+                chunks[80*i + j]  = 0;
+            }
         }
-
+        /*
+        for (std::size_t i = 0; i < 16; ++i){
+            std::cout << std::bitset<32>(chunks[i]) << std::endl;
+        }
+        */
         return chunks;
     }
     void digest(const std::string_view& input){

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "sha.h"
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    sha1::digest("aaa");
+    std::cout << sha1::digest("Hello World!") << std::endl;
     return 0;
 }

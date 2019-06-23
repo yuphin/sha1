@@ -5,22 +5,22 @@
 #include <vector>
 #include <sstream>
 
-/* Compile time utility functions
+/* Utility functions
  * See https://tools.ietf.org/html/rfc3174#section-7
  */
-constexpr uint32_t rotate_left(uint32_t word, uint32_t shift) {
+uint32_t rotate_left(uint32_t word, uint32_t shift) {
     return (word << shift) | (word >> (32 - shift));
 }
 
-constexpr uint32_t f_1(uint32_t B, uint32_t C, uint32_t D) {
+uint32_t f_1(uint32_t B, uint32_t C, uint32_t D) {
     return ((B & C) | ((~B) & D));
 }
 
-constexpr uint32_t f_2(uint32_t B, uint32_t C, uint32_t D) {
+uint32_t f_2(uint32_t B, uint32_t C, uint32_t D) {
     return (B ^ C ^ D);
 }
 
-constexpr uint32_t f_3(uint32_t B, uint32_t C, uint32_t D) {
+uint32_t f_3(uint32_t B, uint32_t C, uint32_t D) {
     return ((B & C) | (B & D) | (C & D));
 }
 
